@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Download') {
             steps {
-                git 'https://github.com/DevinY/test1.git'
+                git 'https://github.com/phalmeida/pheventos.git'
             }
         }
         stage('Configuração') {
