@@ -3,11 +3,6 @@
 pipeline {
     agent any
     stages {
-        stage('Download') {
-            steps {
-                git 'https://github.com/phalmeida/pheventos.git'
-            }
-        }
         stage('Configuração') {
             steps {
                 sh 'cp .env.example .env'
