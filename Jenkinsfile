@@ -23,6 +23,7 @@ pipeline {
         stage("zip_archive") {
             steps {
                 sh "zip -r ${env.BUILD_TAG}.zip ."
+                echo "teste: ${env.BUILD_TAG}.zip"
             }
         }
     }
