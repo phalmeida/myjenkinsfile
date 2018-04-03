@@ -1,29 +1,37 @@
 #!/usr/bin/env groovy
 
 pipeline {
-        agent any
+    agent any
 
-        stages {
-                stage('test') {
-                        steps {
-                                sh 'echo hello'
-                        }
-                }
-                stage('test1') {
-                        steps {
-                                sh 'echo $TEST'
-                        }
-                }
-                stage('test3') {
-                        steps {
-                                script {
-                                        if (env.BRANCH_NAME == 'master') {
-                                                echo "I only execute on the master branch ${env.BRANCH_NAME}"
-                                        } else {
-                                                echo "I execute elsewhere ${env.BRANCH_NAME}"
-                                        }
-                                }
-                        }
-                }
+    stages {
+        stage('Download') {
+            steps {
+                git 'https://github.com/DevinY/test1.git'
+            }
         }
+        stage('Configuração') {
+            steps {
+                sh 'cp .env.example .env'
+                sh 'composer install'
+                sh 'php artisan key:generate'
+            }
+        }
+        stage('Início'){
+            steps {
+                sh 'php artisan serve'
+                sh 'php artisan view:clear'
+            }
+        }
+        stage('implantação'){
+            steps {
+                sh 'php artisan migrate:fresh'
+                sh 'php artisan'
+            }
+        }
+        stage('database seeder'){
+             steps {
+                sh 'php artisan db:seed'
+            }
+        }
+    }
 }
