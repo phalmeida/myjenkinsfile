@@ -2,7 +2,6 @@
 
 pipeline {
     agent any
-
     stages {
         stage('Download') {
             steps {
@@ -21,16 +20,9 @@ pipeline {
                 sh 'php artisan view:clear'
             }
         }
-        stage('implantação'){
-            steps {
-                sh 'php artisan migrate:fresh'
-                sh 'php artisan'
-            }
-        }
-        stage('database seeder'){
-             steps {
-                sh 'php artisan db:seed'
-            }
+        stage("zip_archive") {
+          // Zip the archive to prepare it for an S3 upload
+          sh "zip -r ${env.BUILD_TAG}.zip ."
         }
     }
 }
