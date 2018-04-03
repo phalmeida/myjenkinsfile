@@ -21,8 +21,9 @@ pipeline {
             }
         }
         stage("zip_archive") {
-          // Zip the archive to prepare it for an S3 upload
-          sh "zip -r ${env.BUILD_TAG}.zip ."
+            steps {
+                sh "zip -r ${env.BUILD_TAG}.zip ."
+            }
         }
     }
 }
