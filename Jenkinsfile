@@ -3,6 +3,11 @@
 pipeline {
     agent any
     stages {
+        stage('Download') {
+            steps {
+                git 'https://github.com/phalmeida/pheventos.git'
+            }
+        }
         stage('Configuração') {
             steps {
                 sh 'cp .env.example .env'
@@ -18,7 +23,7 @@ pipeline {
         stage("zip_archive") {
             steps {
                 sh "zip -r ${env.BUILD_TAG}.zip ."
-                echo "teste: ${env.BUILD_TAG}.zip"
+                echo "teste: ${env.BUILD_TAG}.zip";
             }
         }
     }
